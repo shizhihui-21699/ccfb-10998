@@ -1,0 +1,21 @@
+{
+  "name": "tls-scan",
+  "version": "1.0.0",
+  "description": "TLS configuration health-check / baseline-scoring scanner for internal services",
+  "license": "MIT",
+  "private": true,
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "scan": "node dist/cli.js",
+    "servers": "node test-servers/servers.js",
+    "demo": "node dist/cli.js --host 127.0.0.1:9443 --host 127.0.0.1:9444 --host 127.0.0.1:9445"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  }
+}
