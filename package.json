@@ -1,0 +1,32 @@
+{
+  "name": "tls-checkup",
+  "version": "1.0.0",
+  "description": "Active TLS configuration checkup for internal service fleets: protocol versions, cipher suites, server cipher preference, renegotiation, OCSP stapling, HSTS, scored against a configurable baseline.",
+  "type": "module",
+  "bin": {
+    "tls-checkup": "./src/cli.ts"
+  },
+  "scripts": {
+    "checkup": "node --experimental-strip-types src/cli.ts",
+    "lab": "node --experimental-strip-types lab/server.ts",
+    "test": "node --experimental-strip-types --test test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "gen:suites": "node scripts/gen-suite-registry.ts"
+  },
+  "engines": {
+    "node": ">=23.6"
+  },
+  "keywords": [
+    "tls",
+    "ssl",
+    "security",
+    "audit",
+    "ocsp",
+    "hsts"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
+  }
+}

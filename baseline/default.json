@@ -1,0 +1,122 @@
+{
+  "$schema": "./baseline.schema.json",
+  "id": "modern-internal",
+  "name": "Modern internal service baseline",
+  "description": "For internet-facing or high-value internal services. TLS 1.2 minimum, no CBC/static-RSA suites, forward secrecy, server cipher preference, secure renegotiation, OCSP stapling and HSTS required.",
+  "passScore": 85,
+  "checks": [
+    {
+      "id": "tls-version-minimum",
+      "kind": "version-minimum",
+      "params": { "minimumVersion": "TLSv1.2" },
+      "weight": 15,
+      "severity": "critical",
+      "message": "TLS 1.0 and 1.1 are deprecated (RFC 8996) and must be disabled."
+    },
+    {
+      "id": "tls13-supported",
+      "kind": "tls13-preferred",
+      "params": { "required": true },
+      "weight": 5,
+      "severity": "low",
+      "message": "Supporting TLS 1.3 removes the need for much of the legacy suite surface."
+    },
+    {
+      "id": "no-insecure-suites",
+      "kind": "no-insecure-suites",
+      "weight": 20,
+      "severity": "critical",
+      "message": "RC4, export, NULL and anonymous suites must never be accepted."
+    },
+    {
+      "id": "no-weak-suites",
+      "kind": "no-weak-suites",
+      "weight": 15,
+      "severity": "high",
+      "message": "CBC suites with SHA-1 MACs and static-RSA key exchange are weak; prefer AEAD with ECDHE."
+    },
+    {
+      "id": "forward-secrecy",
+      "kind": "forward-secrecy-required",
+      "weight": 10,
+      "severity": "high",
+      "message": "Without forward secrecy, a stolen private key decrypts recorded traffic."
+    },
+    {
+      "id": "server-cipher-preference",
+      "kind": "server-cipher-preference",
+      "weight": 8,
+      "severity": "medium",
+      "message": "A server that follows client suite order lets a client steer it to the weakest suite it accepts."
+    },
+    {
+      "id": "secure-renegotiation",
+      "kind": "secure-renegotiation",
+      "weight": 10,
+      "severity": "high",
+      "message": "RFC 5746 secure renegotiation prevents the 2009 prefix-injection attack."
+    },
+    {
+      "id": "no-client-renegotiation",
+      "kind": "no-client-renegotiation",
+      "weight": 8,
+      "severity": "medium",
+      "message": "Client-initiated renegotiation is an unauthenticated CPU/DoS amplifier."
+    },
+    {
+      "id": "ocsp-stapling",
+      "kind": "ocsp-stapling",
+      "params": { "required": true },
+      "weight": 6,
+      "severity": "low",
+      "message": "Stapling keeps revocation checking private and fast for clients."
+    },
+    {
+      "id": "hsts-present",
+      "kind": "hsts-present",
+      "weight": 8,
+      "severity": "medium",
+      "message": "Without HSTS, the first request over plain HTTP can be intercepted."
+    },
+    {
+      "id": "hsts-max-age",
+      "kind": "hsts-max-age",
+      "params": { "minimumSeconds": 15768000 },
+      "weight": 3,
+      "severity": "low",
+      "message": "A short max-age leaves a window for repeated downgrade attempts."
+    },
+    {
+      "id": "hsts-include-subdomains",
+      "kind": "hsts-include-subdomains",
+      "weight": 2,
+      "severity": "info",
+      "informational": true,
+      "message": "includeSubDomains protects sibling hostnames that may be weaker."
+    },
+    {
+      "id": "certificate-valid",
+      "kind": "certificate-valid",
+      "params": { "minimumDaysRemaining": 14 },
+      "weight": 10,
+      "severity": "high",
+      "message": "An expired or near-expiry certificate causes outages and trains users to click through warnings."
+    },
+    {
+      "id": "certificate-key-strength",
+      "kind": "certificate-key-strength",
+      "params": { "minimumRsaBits": 2048, "minimumEcBits": 256 },
+      "weight": 8,
+      "severity": "high",
+      "message": "Keys below 2048-bit RSA / 256-bit EC are not acceptable in 2026."
+    },
+    {
+      "id": "certificate-signature",
+      "kind": "certificate-signature",
+      "params": { "forbid": ["sha1", "md5"] },
+      "weight": 10,
+      "severity": "critical",
+      "message": "SHA-1 and MD5 certificate signatures are forgeable and rejected by modern clients."
+    }
+  ]
+}

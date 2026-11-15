@@ -1,0 +1,91 @@
+{
+  "$schema": "./baseline.schema.json",
+  "id": "legacy-tolerant",
+  "name": "Legacy-tolerant internal baseline",
+  "description": "For services that cannot yet drop TLS 1.0/1.1 or OCSP. Still forbids broken suites, requires forward secrecy on what remains, and demands server preference and secure renegotiation. Use as a migration target, not a resting place.",
+  "passScore": 75,
+  "checks": [
+    {
+      "id": "tls-version-minimum",
+      "kind": "version-minimum",
+      "params": { "minimumVersion": "TLSv1.0" },
+      "weight": 0,
+      "severity": "info",
+      "informational": true,
+      "message": "No minimum version is enforced by this baseline; TLS 1.0/1.1 use is reported but not scored."
+    },
+    {
+      "id": "no-weak-suites-tls1",
+      "kind": "version-forbidden",
+      "params": { "versions": [] },
+      "weight": 0,
+      "severity": "info",
+      "informational": true
+    },
+    {
+      "id": "no-insecure-suites",
+      "kind": "no-insecure-suites",
+      "weight": 30,
+      "severity": "critical"
+    },
+    {
+      "id": "no-weak-suites",
+      "kind": "no-weak-suites",
+      "weight": 10,
+      "severity": "high"
+    },
+    {
+      "id": "forward-secrecy",
+      "kind": "forward-secrecy-required",
+      "weight": 12,
+      "severity": "high"
+    },
+    {
+      "id": "server-cipher-preference",
+      "kind": "server-cipher-preference",
+      "weight": 10,
+      "severity": "high",
+      "message": "On a legacy-tolerant baseline, server preference matters more: it is what keeps clients off the weakest still-offered suite."
+    },
+    {
+      "id": "secure-renegotiation",
+      "kind": "secure-renegotiation",
+      "weight": 15,
+      "severity": "critical"
+    },
+    {
+      "id": "no-client-renegotiation",
+      "kind": "no-client-renegotiation",
+      "weight": 10,
+      "severity": "high"
+    },
+    {
+      "id": "ocsp-stapling",
+      "kind": "ocsp-stapling",
+      "params": { "required": false },
+      "weight": 0,
+      "severity": "info",
+      "informational": true
+    },
+    {
+      "id": "hsts-present",
+      "kind": "hsts-present",
+      "weight": 5,
+      "severity": "low"
+    },
+    {
+      "id": "certificate-valid",
+      "kind": "certificate-valid",
+      "params": { "minimumDaysRemaining": 7 },
+      "weight": 15,
+      "severity": "high"
+    },
+    {
+      "id": "certificate-signature",
+      "kind": "certificate-signature",
+      "params": { "forbid": ["sha1", "md5"] },
+      "weight": 15,
+      "severity": "critical"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.invalid/tls-checkup/baseline.schema.json",
+  "title": "TLS checkup baseline",
+  "type": "object",
+  "required": ["id", "name", "checks"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "name": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "passScore": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "weight", "severity"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+          "kind": {
+            "enum": [
+              "version-minimum",
+              "version-forbidden",
+              "no-weak-suites",
+              "no-insecure-suites",
+              "forward-secrecy-required",
+              "server-cipher-preference",
+              "secure-renegotiation",
+              "no-client-renegotiation",
+              "ocsp-stapling",
+              "hsts-present",
+              "hsts-max-age",
+              "hsts-include-subdomains",
+              "certificate-valid",
+              "certificate-key-strength",
+              "certificate-signature",
+              "tls13-preferred",
+              "custom-suite-forbidden"
+            ]
+          },
+          "weight": { "type": "number", "minimum": 0 },
+          "severity": { "enum": ["critical", "high", "medium", "low", "info"] },
+          "informational": { "type": "boolean" },
+          "params": { "type": "object" },
+          "message": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+# Targets for the local lab. Start it first:
+#   node lab/run-lab.ts --cert lab/certs/server.pem --key lab/certs/server.key \
+#     --chain lab/certs/ca.pem --ocsp lab/certs/response.der --port 18443
+#
+# Ports are assigned basePort onwards in profile order:
+#   18443 modern   18444 legacy    18445 tls13only  18446 weak
+#   18447 nohsts   18448 http-hsts 18449 stapling
+127.0.0.1:18443 modern
+127.0.0.1:18444 legacy
+127.0.0.1:18445 tls13only
+127.0.0.1:18446 weak
+127.0.0.1:18447 nohsts
+127.0.0.1:18448 http-hsts http:18448
+127.0.0.1:18449 stapling

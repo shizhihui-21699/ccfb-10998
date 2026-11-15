@@ -1,0 +1,17 @@
+# tls-checkup example target file.
+#
+# One target per line: host[:port] [name] [http:port]
+# Port defaults to 443. "#" starts a comment.
+
+# A single service on the default port.
+api.internal.example
+
+# Non-HTTP services work the same way: any TLS listener can be probed.
+db.internal.example:5432
+cache.internal:6379 cache-primary
+
+# The TLS port plus a plain-HTTP port, so HSTS can be checked on both.
+internal.example:443 internal http:80
+
+# IPv6 literal.
+[2001:db8::1]:8443 ipv6-service
