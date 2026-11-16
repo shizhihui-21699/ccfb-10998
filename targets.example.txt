@@ -1,0 +1,7 @@
+# One target per line. host:port, or just host (defaults to 443).
+# Comments and blank lines are ignored. Use with: tls-doctor scan @targets.example.txt
+api.internal.example:443
+admin.internal.example:8443
+legacy-app.internal.example:443
+# IPv6 literals go in brackets
+# [2001:db8::10]:443
